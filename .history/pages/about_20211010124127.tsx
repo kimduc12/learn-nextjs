@@ -11,37 +11,20 @@ export interface AboutPageProps {}
 function AboutPage(props: AboutPageProps) {
     const router = useRouter();
     const [postList, setPostList] = React.useState([]);
-    console.log('about', router.query);
-    const page = router.query?.page;
+    console.log('about');
     React.useEffect(() => {
-        if (!page) return;
         (async () => {
-            const response = await fetch(
-                `https://js-post-api.herokuapp.com/api/posts?_page=${page}`
-            );
+            const response = await fetch('https://js-post-api.herokuapp.com/api/posts?_page=1');
             const data = await response.json();
             setPostList(data.data);
         })();
-    }, [page]);
-
-    const handleNextClick = () => {
-        router.push(
-            {
-                pathname: '/about',
-                query: {
-                    page: page + 1,
-                },
-            },
-            undefined,
-            { shallow: true }
-        );
-    };
+    }, []);
     return (
         <div>
             <Header />
             About page {JSON.stringify(router.query)}
             <ul>
-                {postList.map((post: any) => (
+                {postList.map((post) => (
                     <li key={post.id}>
                         <Link href={`/posts/${post.id}`}>
                             <a>{post.title}</a>
@@ -49,23 +32,15 @@ function AboutPage(props: AboutPageProps) {
                     </li>
                 ))}
             </ul>
-            <button onClick={handleNextClick}>Next Page</button>
         </div>
     );
 }
 
-export const getStaticProps = async () => {
-    console.log('getStaticProps');
+export const getServerSideProps = async () => {
     return {
         props: {},
     };
 };
-
-// export const getServerSideProps = async () => {
-//     return {
-//         props: {},
-//     };
-// };
 
 AboutPage.propTypes = {};
 

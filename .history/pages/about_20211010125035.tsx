@@ -12,9 +12,8 @@ function AboutPage(props: AboutPageProps) {
     const router = useRouter();
     const [postList, setPostList] = React.useState([]);
     console.log('about', router.query);
-    const page = router.query?.page;
+    const page = Number(router.query?.page) || 1;
     React.useEffect(() => {
-        if (!page) return;
         (async () => {
             const response = await fetch(
                 `https://js-post-api.herokuapp.com/api/posts?_page=${page}`
