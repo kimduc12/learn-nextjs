@@ -8,6 +8,11 @@ interface PostPageProps {
 
 function PostDetailPage({ post }: PostPageProps) {
     const router = useRouter();
+
+    // Only work if fallback is true
+    // if(router.isFallback) {
+    //     return <div>Loading....</div>
+    // }
     return (
         <div>
             <h1>Post detail page</h1>
@@ -24,11 +29,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths: data.data.map((post: any) => ({ params: { postId: post.id } })),
-        fallback: false,
+        fallback: 'blocking',
     };
 };
 
-export const getStaticProps: GetStaticProps<PostPageProps> = async (context: GetStaticPropsContext) => {
+export const getStaticProps: GetStaticProps<PostPageProps> = async (
+    context: GetStaticPropsContext
+) => {
     const params = context.params;
     const postId = params?.postId;
     if (!postId) return { notFound: true };
@@ -39,6 +46,7 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async (context: Get
         props: {
             post: data,
         },
+        revalidate: 5,
     };
 };
 

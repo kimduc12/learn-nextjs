@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/dist/client/router';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { MainLayout } from '@/components/layouts';
 
 const Header = dynamic(() => import('@/components/common/header'), { ssr: false });
 
@@ -37,8 +38,7 @@ function AboutPage(props: AboutPageProps) {
         );
     };
     return (
-        <div>
-            <Header />
+        <>
             About page {JSON.stringify(router.query)}
             <ul>
                 {postList.map((post: any) => (
@@ -50,7 +50,7 @@ function AboutPage(props: AboutPageProps) {
                 ))}
             </ul>
             <button onClick={handleNextClick}>Next Page</button>
-        </div>
+        </>
     );
 }
 
@@ -68,5 +68,5 @@ export const getStaticProps = async () => {
 // };
 
 AboutPage.propTypes = {};
-
+AboutPage.Layout = MainLayout;
 export default AboutPage;
