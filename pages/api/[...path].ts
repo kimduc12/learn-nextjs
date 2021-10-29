@@ -1,4 +1,5 @@
-import { Cookies } from 'cookies';
+import Cookies from 'cookies';
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import httpProxy from 'http-proxy';

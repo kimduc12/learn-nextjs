@@ -35,10 +35,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
                         sameSite: 'lax',
                         expires: new Date(expiredAt),
                     });
-                    (res as NextApiResponse).status(200).end({ message: 'success' });
+                    (res as NextApiResponse).status(200).json({ message: 'success' });
                 });
             } catch (error) {
-                (res as NextApiResponse).status(500).end({ message: 'error' });
+                (res as NextApiResponse).status(500).json({ message: 'error' });
             }
         };
         proxy.once('proxyRes', handleLoginResponse);
