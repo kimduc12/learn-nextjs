@@ -1,13 +1,18 @@
 import { authApi } from '@/api/auth-api';
+import { useAuth } from 'hooks';
+import { useRouter } from 'next/dist/client/router';
 import React from 'react';
 
 const LoginPage = () => {
+    const router = useRouter();
+    const { profile, login, logout } = useAuth({
+        revalidateOnMount: false,
+    });
+
     const handleLoginClick = async () => {
         try {
-            const res = await authApi.login({
-                username: 'test',
-                password: '123456a',
-            });
+            await login();
+            router.push('/about');
         } catch (error) {
             console.log('error login', error);
         }
@@ -15,7 +20,7 @@ const LoginPage = () => {
 
     const handleGetProfileClick = async () => {
         try {
-            const res = await authApi.getProfile();
+            const res = profile();
         } catch (error) {
             console.log('error login', error);
         }
@@ -23,7 +28,7 @@ const LoginPage = () => {
 
     const handleLogoutClick = async () => {
         try {
-            const res = await authApi.logout();
+            await logout();
         } catch (error) {
             console.log('error login', error);
         }
@@ -32,7 +37,7 @@ const LoginPage = () => {
     return (
         <div>
             <h1>Login Page</h1>
-
+            <p>Profile: {JSON.stringify(profile || {}, null, 4)}</p>
             <button onClick={handleLoginClick}>Login</button>
             <button onClick={handleGetProfileClick}>Get Profile</button>
             <button onClick={handleLogoutClick}>Logout</button>
